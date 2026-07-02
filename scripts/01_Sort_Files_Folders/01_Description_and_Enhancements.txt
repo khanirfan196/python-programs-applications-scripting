@@ -1,0 +1,15 @@
+-- Description:
+
+-- Script sorts files and folders in a provided directory/folder. 
+-- Script steps:
+    -- Creates folders like 'Word', 'PDF', 'Text' etc. if not available.
+    -- Move files accordingly and
+    -- Finally sorts folders other than it creates. 
+    -- It also creates downloads_archive_{current_date} to move all files and folders 
+       after copying to respective folders.
+
+
+-- Scope for Enhancements:
+
+    -- Add exception blocks.
+    -- While sorting folders, skip downloads_archive_{date} folders. 
