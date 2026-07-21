@@ -13,3 +13,10 @@
 
     -- Add exception blocks.
     -- While sorting folders, skip downloads_archive_{date} folders. 
+    -- Handle situation of, if file is already present in the folder like 'Word' or 'PDF'. 
+    -- Schedule this program to run bi-weekly or weekly in Windows. 
+
+
+-- Implementations:
+
+    -- 
