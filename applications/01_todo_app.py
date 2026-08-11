@@ -4,17 +4,17 @@ import logging
 
 # variables
 
-task = {}
+tasks = {}
 
 # functions
 
 def gen_task_key():
-    task_key = len(task.keys())
+    task_key = len(tasks.keys())
     return task_key + 1
 
 def create_task(task_val: str):
     task_key = gen_task_key()
-    task.update({task_key: task_val})
+    tasks.update({task_key: task_val})
 
 def add_task():
     pass
@@ -26,7 +26,8 @@ def delete_task():
     pass
 
 def view_tasks():
-    pass
+    for k, v in tasks.items():
+        print("Task No: ",k, " : ", v)
 
 if __name__ == "__main__":
     print("----- ToDo App ------")
@@ -37,10 +38,20 @@ if __name__ == "__main__":
     03: Update todos
     04: Delete todos
     """)
-    try: 
-        user_choice = int(input("Enter option: "))
-    except Exception as e:
-        print(f"Wrong input. Error - {e}")
+
+    while True:
+        try: 
+            user_choice = int(input("Enter choice: "))
+        except Exception as e:
+            print(f"Wrong input. Error - {e}")
+        if user_choice == 1:
+            print(view_tasks())
+        elif user_choice == 2:
+            user_task = str(input("Enter task: "))
+            create_task(user_task)
+            print("Task added.")
+        elif user_choice == 0:
+            exit()
 
 
     # test
