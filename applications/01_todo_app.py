@@ -19,8 +19,8 @@ def create_task(task_val: str):
 def add_task():
     pass
 
-def update_task():
-    pass 
+def update_task(task_key, task_val):
+    tasks.update({task_key: task_val}) 
 
 def delete_task():
     pass
@@ -44,12 +44,19 @@ if __name__ == "__main__":
             user_choice = int(input("Enter choice: "))
         except Exception as e:
             print(f"Wrong input. Error - {e}")
+        # View Tasks
         if user_choice == 1:
-            print(view_tasks())
+            view_tasks()
+        # Add Tasks
         elif user_choice == 2:
-            user_task = str(input("Enter task: "))
+            user_task = str(input("Add task: "))
             create_task(user_task)
             print("Task added.")
+        # Update Tasks
+        elif user_choice == 3:
+            task_key = int(input(("Enter task key to update: ")))
+            task_val = str(input("Enter task value to update: "))
+            update_task(task_key, task_val)
         elif user_choice == 0:
             exit()
 
