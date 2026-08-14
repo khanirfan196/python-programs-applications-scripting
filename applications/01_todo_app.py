@@ -22,41 +22,61 @@ def add_task():
 def update_task(task_key, task_val):
     tasks.update({task_key: task_val}) 
 
-def delete_task():
-    pass
+def delete_task(task_key):
+    if len(tasks) > 0:
+        tasks.pop(task_key)
+        print(f"Deleted Task with key: {task_key}")
+    else:
+        print("There are no tasks to delete")
 
 def view_tasks():
-    for k, v in tasks.items():
-        print("Task No: ",k, " : ", v)
+    if len(tasks) > 0:
+        for k, v in tasks.items():
+            print("Task No: ",k, " : ", v)
+    else:
+        print("You have no tasks")
 
 if __name__ == "__main__":
     print("----- ToDo App ------")
     print("""
-    Options -> \n
-    01: View todos
-    02: Add todos
-    03: Update todos
-    04: Delete todos
-    """)
+                Options -> \n
+                01: View todos
+                02: Add todos
+                03: Update todos
+                04: Delete todos
+                05: Exit App
+                """)
 
     while True:
+        
         try: 
             user_choice = int(input("Enter choice: "))
+            if not user_choice in range(0, 5):
+                raise ValueError("Input range should be 0 to 4")
         except Exception as e:
             print(f"Wrong input. Error - {e}")
         # View Tasks
         if user_choice == 1:
             view_tasks()
+            print("----+" * 5)
         # Add Tasks
         elif user_choice == 2:
             user_task = str(input("Add task: "))
             create_task(user_task)
             print("Task added.")
+            print("----+" * 5)
         # Update Tasks
         elif user_choice == 3:
             task_key = int(input(("Enter task key to update: ")))
             task_val = str(input("Enter task value to update: "))
             update_task(task_key, task_val)
+            print("----+" * 5)
+        # Delete Task
+        elif user_choice == 4:
+            task_key = int(input(("Enter task key to delete: ")))
+            delete_task(task_key)
+            print("----+" * 5)
+        # Exit App
         elif user_choice == 0:
             exit()
 
