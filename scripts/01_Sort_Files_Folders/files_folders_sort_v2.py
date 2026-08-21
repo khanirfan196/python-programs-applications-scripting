@@ -1,5 +1,6 @@
 import os
 import shutil
+import pathlib
 from datetime import datetime
 import re
 
@@ -10,13 +11,13 @@ today = datetime.today().date()
 
 today = today.strftime("%m%d%Y")
 
-drive = "C:"
-# drive = "D:"
+# drive = "C:"
+drive = "D:"
 
 # D:\Z_Downloads_Copy\07192026
 # C:\Users\khani\Downloads
-folder_path = "/Users/khani/Downloads/"
-# folder_path = "/Z_Downloads_Copy/07192026/"
+# folder_path = "/Users/khani/Downloads/"
+folder_path = "/Z_Downloads_Copy/Downloads_Test/"
 
 c_path = os.path.join(drive, folder_path)
 
@@ -56,23 +57,48 @@ def create_folders():
     Create folders for respective files types.
     '''
     for dir in dirs_map.keys():
-        if os.path.exists(c_path + dir) != True:
-            os.mkdir(c_path + dir)
+        try:
+            if os.path.exists(c_path + dir) != True:
+                os.mkdir(c_path + dir)
+        except Exception as e:
+            print(f"Cannot make director {c_path + dir} - {e}")
 
+def check_file_exists(c_path, dir, file):
+    file_path = pathlib.Path(c_path) / dir / file #os.path.join(c_path, dir, file)
+    file_path = file_path.as_posix()
+    print("in check file exists function.")
+    print(file_path)
+    if pathlib.Path.exists(file_path):
+        # check file modification time 
+        print("STATS...")
+        stats = os.stat(file)
+        print(f"Last Modified: {datetime.fromtimestamp(stats.st_mtime_ns)}")
+        return True 
+    else:
+        print("its else")
+    return False
 
 def files_sorter(dir, extn):
     '''
     Moves files to respective folders.
     '''
-    # print(dir, extn)
     for file in files_list:
-        file = str(file).lower()
-        if os.path.isfile(c_path + file):
-            file_extn = "." +  file.split(".")[-1]
-            if file_extn == extn or file_extn in extn:
-                print(f"Copying file.. {file}")
-                shutil.copy(c_path + file, c_path + dir)
-                shutil.move(c_path + file, c_path + archive_folder)
+        try: 
+            file = str(file).lower()
+            if os.path.isfile(c_path + file):
+                file_extn = "." +  file.split(".")[-1]
+                if file_extn == extn or file_extn in extn:
+                    # test
+                    print(c_path + file)
+                    # Check if file already present in destination folder
+                    if not check_file_exists(c_path, dir, file):
+                        print(f"Copying file.. {file}")
+                        shutil.copy(c_path + file, c_path + dir)
+                        shutil.move(c_path + file, c_path + archive_folder)
+                    else:
+                        print(f"File already exists - {file}")
+        except Exception as e:
+            print(f"Error while copying/moving {file} - {e}")
 
 
 def folders_sorter():
@@ -81,11 +107,15 @@ def folders_sorter():
     '''
     pre_folders = dirs_map.keys() 
     folders = os.listdir(os.path.join(drive, folder_path))
-    for folder in folders:
-        if os.path.isdir(c_path + folder):
-            archive_folders = re.fullmatch(folder_pattern, folder)
-            if archive_folders is None and folder not in pre_folders: 
-                shutil.move(c_path + folder, c_path + archive_folder)
+    try: 
+        for folder in folders:
+            if os.path.isdir(c_path + folder):
+                archive_folders = re.fullmatch(folder_pattern, folder)
+                if archive_folders is None and folder not in pre_folders: 
+                    shutil.move(c_path + folder, c_path + archive_folder)
+    except Exception as e:
+        print(f"Error while sorting folder {folder} - {e}")
+
 
 def zip_archive_folders():
     pass
