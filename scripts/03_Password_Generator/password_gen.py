@@ -21,13 +21,17 @@ def generate_letters(length, total_letters):
 
 # generate password
 def generate_password(length, total_letters, begin_with_letter=False):
-    pass
+    if begin_with_letter:
+        letters = generate_letters(length, total_letters)
+        password = letters
+        #letters.join(random.choice(special_characters + numbers) for _ in range(total_letters))
+        return password
 
 if __name__ == "__main__":
     # user input
     length = int(input("Enter the length of the password: "))
     total_letters = int(input("Enter the total number of letters: "))
     begin_with_letter = input("Should the password begin with a letter? (y/n): ").lower() == "y"
-    if not begin_with_letter:
-        letters = generate_letters(length, total_letters)
-        print(letters)
+    if begin_with_letter:
+        password = generate_password(length, total_letters, begin_with_letter=begin_with_letter)
+        print(password)
