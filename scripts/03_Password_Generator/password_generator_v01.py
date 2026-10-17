@@ -3,8 +3,8 @@ import random
 
 # variables
 
-special_characters = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~"
-numbers = "0123456789"
+special_characters = "@#$%&*|~"
+digits = "0123456789"
 uppercase_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 lowercase_letters = "abcdefghijklmnopqrstuvwxyz"
 
@@ -24,7 +24,15 @@ def generate_password(length, total_letters, begin_with_letter=False):
     if begin_with_letter:
         letters = generate_letters(length, total_letters)
         password = letters
-        #letters.join(random.choice(special_characters + numbers) for _ in range(total_letters))
+        special_chars = "".join(random.choice(special_characters) for _ in range(1))
+        nums = "".join(random.choice(digits) for _ in range(length - total_letters - 1))
+        password += special_chars
+        password += nums
+        return password
+    else:
+        special_chars = "".join(random.choice(special_characters) for _ in range(length - total_letters))
+        letters = generate_letters(length, total_letters)
+        password = letters + special_chars
         return password
 
 if __name__ == "__main__":
@@ -34,4 +42,7 @@ if __name__ == "__main__":
     begin_with_letter = input("Should the password begin with a letter? (y/n): ").lower() == "y"
     if begin_with_letter:
         password = generate_password(length, total_letters, begin_with_letter=begin_with_letter)
+        print(password)
+    else:
+        password = generate_password(length, total_letters)
         print(password)
