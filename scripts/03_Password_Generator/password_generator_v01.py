@@ -32,7 +32,7 @@ def generate_password(length, total_letters, begin_with_letter=False):
     else:
         special_chars = "".join(random.choice(special_characters) for _ in range(length - total_letters))
         letters = generate_letters(length, total_letters)
-        password = letters + special_chars
+        password = special_chars + letters
         return password
 
 if __name__ == "__main__":
