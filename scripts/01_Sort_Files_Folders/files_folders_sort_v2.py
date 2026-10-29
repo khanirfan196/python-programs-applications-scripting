@@ -11,13 +11,13 @@ today = datetime.today().date()
 
 today = today.strftime("%m%d%Y")
 
-# drive = "C:"
-drive = "D:"
+drive = "C:"
+# drive = "D:"
 
 # D:\Z_Downloads_Copy\07192026
 # C:\Users\khani\Downloads
-# folder_path = "/Users/khani/Downloads/"
-folder_path = "/Z_Downloads_Copy/Downloads_Test/"
+folder_path = "/Users/khani/Downloads/"
+# folder_path = "/Z_Downloads_Copy/Downloads_Test/"
 
 c_path = os.path.join(drive, folder_path)
 
@@ -26,6 +26,7 @@ archive_folder = f"downloads_archive_{today}"
 folder_pattern = r"downloads_archive_\d{8}"
 
 if not os.path.exists(c_path + archive_folder):
+    print("path does not exist, creating archive folder")
     os.mkdir(c_path + archive_folder)
 
 # Need a Dictionary to match folder with file extension
@@ -121,6 +122,7 @@ def zip_archive_folders():
     pass
 
 if __name__ == "__main__":
+    # accept input from user for folder path and drive
     print("Create Folders --")
     create_folders()
     print(f"Created Folders in {c_path}")
